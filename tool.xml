@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<run>
+    <tool>
+        <title>Mass Fraction over Time</title>
+        <about>A tool to plot Mass Fraction versus Time.</about>
+        <command>@tool/compute_species_mass_fraction.c @driver</command>
+    </tool>
+    <input>
+	<number id='k'>
+	    <about>
+		<label>Number of Plot Points</label>
+		<description>Enter the number of points to calculate between x=0 and the maximum </description>
+	    </about>
+	</number>
+	<number id='Delta'>
+            <about>
+                <label>Number of Plot Points</label>
+                <description>Enter the number of points to calculate between x=0 and the maximum </description>
+            </about>
+        </number>
+	<number id='omega'>
+            <about>
+                <label>Number of Plot Points</label>
+                <description>Enter the number of points to calculate between x=0 and the maximum </description>
+            </about>
+        </number>
+	<number id='alpha'>
+            <about>
+                <label>Number of Plot Points</label>
+                <description>Enter the number of points to calculate between x=0 and the maximum </description>
+            </about>
+        </number>
+	<number id='species'>
+            <about>
+                <label>Number of Plot Points</label>
+                <description>Enter the number of points to calculate between x=0 and the maximum </description>
+            </about>
+        </number>
+       
+
+
+	 <number id="decay_rate">
+            <about>
+                <label>a</label>
+                <description>Coefficient a in front of the exponential.</description>
+            </about>
+        </number>
+        <number id="alpha_i">
+            <about>
+                <label>n</label>
+                <description>Power of the exponential.</description>
+            </about>
+        </number>
+	</input>
+
+	<output>
+	  <curve id="tx">
+		<about>
+		  <label>Mass Fraction over time</label>
+		  <description>Change in X (Aluminium 27) with changes in Time</description>
+		</about>
+		<xaxis>
+		  <label>t</label>
+		  <description>Time</description>
+		  <units>s</units>
+		</xaxis>
+		<yaxis>
+		  <label>X</label>
+		  <description>Mass Fraction</description>
+		  <units></units>
+		</yaxis>
+	  </curve>	
+	</output>
+</run>
