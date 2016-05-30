@@ -33,7 +33,7 @@ SHELL = /bin/sh
 GC=gcc
 
 #GCEDIR = ../src/
-RAPPDIR = /usr/local/rappture/
+RAPPDIR = /usr/local/rappture
 VALGRIND= yes
 PROFILE= no
 
