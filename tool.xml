@@ -3,7 +3,7 @@
     <tool>
         <title>Mass Fraction over Time</title>
         <about>A tool to plot Mass Fraction versus Time.</about>
-        <command>@tool/compute_species_mass_fraction.c @driver</command>
+        <command>@tool/compute_species_mass_fraction @driver</command>
     </tool>
     <input>
 	<number id='k'>
