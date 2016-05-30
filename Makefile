@@ -33,6 +33,7 @@ SHELL = /bin/sh
 GC=gcc
 
 #GCEDIR = ../src/
+RAPPDIR = /usr/local/rappture/
 VALGRIND= yes
 PROFILE= no
 
@@ -42,8 +43,8 @@ PROFILE= no
 
 #VPATH = $(GCEDIR)
 
-CINCLUDE= `xml2-config --cflags` `gsl-config --cflags` -I./
-CLIBS= `xml2-config --libs` `gsl-config --libs` -lm
+CINCLUDE= `xml2-config --cflags` `gsl-config --cflags` -I$(RAPPDIR)/include -I./
+CLIBS= `xml2-config --libs` `gsl-config --libs` -L$(RAPPDIR)/lib -lrappture -lm
 
 #===============================================================================
 # Compiler flags.
