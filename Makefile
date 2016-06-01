@@ -30,88 +30,23 @@ SHELL = /bin/sh
 # not, or to profile:
 #///////////////////////////////////////////////////////////////////////////////
 
-GC=gcc
+GC=g++
 
 #GCEDIR = ../src/
 RAPPDIR = /usr/local/rappture
 VALGRIND= yes
 PROFILE= no
 
-#///////////////////////////////////////////////////////////////////////////////
-# End of lines to be edited.
-#///////////////////////////////////////////////////////////////////////////////
+INCLUDES = -I$(RAPPDIR)/include
+LIBS = -L$(RAPPDIR)/lib -lrappture -lm
 
-#VPATH = $(GCEDIR)
+VENDORDIR = ./vendor
+OBJDIR = ./obj
 
-CINCLUDE= `xml2-config --cflags` `gsl-config --cflags` -I$(RAPPDIR)/include -I./
-CLIBS= `xml2-config --libs` `gsl-config --libs` -L$(RAPPDIR)/lib -lrappture -lm
+include Makefile.inc
 
-#===============================================================================
-# Compiler flags.
-#===============================================================================
-
-CFLAGS= -ansi -Werror -Wall -pedantic\
-         -Wconversion -Wshadow \
-         -Wpointer-arith -Wcast-qual \
-         -Wwrite-strings \
-         -fshort-enums -fno-common -Dinline= -g \
-
-ifeq ($(GC), gcc) 
-	CFLAGS+= -W -Wcast-align -Wmissing-prototypes -Wstrict-prototypes \
-                 -Wnested-externs
-endif
-
-ifeq ($(GC), g++) 
-	CFLAGS+= -W -Wcast-align
-endif
-
-ifeq ($(GC), icc)
-	CFLAGS+= -wd9 -wd981 -wd1292 -wd1419 -wd10148 -wd10156
-endif
-
-ifeq ($(GC), icpc)
-	CFLAGS+= -wd9 -wd981 -wd1292 -wd1419 -wd10148 -wd10156
-endif
-
-ifeq ($(VALGRIND), yes)
-	CFLAGS+= -O0
-else
-	CFLAGS+= -O2
-endif
-
-ifeq ($(PROFILE), yes)
-	CFLAGS+= -pg
-endif
-
-ifdef WN_DEBUG
-  CFLAGS += -DWN_DEBUG
-endif
-
-CC=$(GC) $(CFLAGS) $(CINCLUDE)
-
-#===============================================================================
-# TMPDIR is the temporary directory for codes compilation, this is where
-# object files are created. 
-#===============================================================================
-
-TMPDIR = ./tmp/
-
-TMP_DIR := $(shell mkdir -p $(TMPDIR))
-
-#===============================================================================
-# Objects.
-#===============================================================================
-
-OBJS =  $(TMPDIR)WnSimpleGce.o \
-#	$(TMPDIR)my_infall_functions.o \
-	$(TMPDIR)my_species_yield_function.o \
-
-$(OBJS): $(TMPDIR)%.o: %.c
-	$(CC) -c -o $@ $<
-
-#===============================================================================
-# Compile all codes.
-#===============================================================================
+CLIBS += $(LIBS)
+CINCLUDE += $(INCLUDES)
 
 EXEC = \
   gce_masses \
@@ -130,6 +65,8 @@ EXEC = \
 
 .PHONY all : $(EXEC)
 
+yes: compute_species_mass_fraction
+
 #===============================================================================
 # Compile codes.
 #===============================================================================
@@ -139,6 +76,7 @@ $(EXEC) : $(OBJS)
 	$(CC) $(OBJS) $(TMPDIR)$@.o $(CLIBS) -o $@
 
 
+
 .PHONY: clean cleanall
 
 clean: 
@@ -146,3 +84,4 @@ clean:
 
 cleanall: clean
 	rm -f $(EXEC) *.exe
+	rm -fr $(VENDORDIR) $(OBJDIR)

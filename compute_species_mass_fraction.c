@@ -26,57 +26,129 @@
 //////////////////////////////////////////////////////////////////////////////*/
  
 #include <WnSimpleGce.h>
-
+#include "rappture.h"
 #define D_INTERVAL 0.1
 
 int
 main( int argc, char **argv ) {
 
+  RpLibrary* lib = NULL;
+  const char* data = NULL;
+  char line [100];
   WnSimpleGce *p_model;
   WnSimpleGce__Species *p_species;
   double d_t;
   int i;
+  int err = 0;
+  double k = 0;
+  double delta = 0; 
+  double omega = 0;
+  double alpha = 0;
+  char species = NULL;
+  double decay_rate = 0;
+  double alpha_i = 0;
+  
 
   /*============================================================================
   // Check input.
   //==========================================================================*/
 
-   if ( argc < 8 ) {
-      fprintf(
-        stderr,
-        "\nUsage: %s k Delta omega alpha species decay_rate alpha_i ... \n\n",
-        argv[0]
-      );
-      fprintf(
-        stderr,
-        "k = Clayton infall parameter k\n\n"
-      );
-      fprintf(
-        stderr,
-        "Delta = Clayton infall parameter Delta\n\n"
-      );
-      fprintf(
-        stderr,
-        "omega = gas consumption rate (per Gyr)\n\n"
-      );
-      fprintf(
-        stderr,
-        "alpha = primary metallicity yield\n\n"
-      );
-      fprintf(
-        stderr,
-        "species = name of species\n\n"
-      );
-      fprintf(
-        stderr,
-        "decay_rate = decay rate (per Gyr)\n\n"
-      );
-      fprintf(
-        stderr,
-        "alpha_i = alpha parameter for species\n\n"
-      );
-      return EXIT_FAILURE;
-   }
+//   if ( argc < 8 ) {
+//      fprintf(
+//        stderr,
+//        "\nUsage: %s k Delta omega alpha species decay_rate alpha_i ... \n\n",
+//        argv[0]
+//      );
+//     fprintf(
+//       stderr,
+//        "k = Clayton infall parameter k\n\n"
+//      );
+//      fprintf(
+//        stderr,
+//        "Delta = Clayton infall parameter Delta\n\n"
+//      );
+//      fprintf(
+//        stderr,
+//        "omega = gas consumption rate (per Gyr)\n\n"
+//      );
+//      fprintf(
+//        stderr,
+//       "alpha = primary metallicity yield\n\n"
+//      );
+//      fprintf(
+//        stderr,
+//        "species = name of species\n\n"
+//      );
+//      fprintf(
+//        stderr,
+//        "decay_rate = decay rate (per Gyr)\n\n"
+//      );
+//      fprintf(
+//        stderr,
+//        "alpha_i = alpha parameter for species\n\n"
+//      );
+//      return EXIT_FAILURE;
+//   }
+
+
+ rpGetString(lib,"input.integer(k).current",&data);
+  k = rpConvertDbl(data, "points", &err);
+  if (err) {
+        printf ("Error while retrieving input.number(points).current\n");
+        return(2);
+  }
+
+
+  rpGetString(lib,"input.number(delta).current",&data);
+  delta = rpConvertDbl(data, "coefficient", &err);
+  if (err) {
+        printf ("Error while retrieving input.number(a).current\n");
+        return(3);
+  }
+ rpGetString(lib,"input.integer(omega).current",&data);
+  omega = rpConvertDbl(data, "points", &err);
+  if (err) {
+        printf ("Error while retrieving input.number(points).current\n");
+        return(4);
+  }
+
+
+  rpGetString(lib,"input.number(alpha).current",&data);
+  alpha = rpConvertDbl(data, "coefficient", &err);
+  if (err) {
+        printf ("Error while retrieving input.number(a).current\n");
+        return(5);
+  }
+ rpGetString(lib,"input.integer(species).current",&species);
+//  pts = rpConvertDbl(data, "points", &err);
+  if (species=NULL) {
+        printf ("Error while retrieving input.number(points).current\n");
+        return(6);
+  }
+
+
+  rpGetString(lib,"input.number(decay_rate).current",&data);
+  decay_rate = rpConvertDbl(data, "coefficient", &err);
+  if (err) {
+        printf ("Error while retrieving input.number(a).current\n");
+        return(7);
+  }
+// rpGetString(lib,"input.integer(points).current",&data);
+//  pts = rpConvertDbl(data, "points", &err);
+//  if (err) {
+//        printf ("Error while retrieving input.number(points).current\n");
+//        return(2);
+//  }
+
+
+  rpGetString(lib,"input.number(alpha_i).current",&data);
+  alpha_i = rpConvertDbl(data, "coefficient", &err);
+  if (err) {
+        printf ("Error while retrieving input.number(a).current\n");
+        return(8);
+  }
+
+
 
   /*============================================================================
   // Create model.
@@ -88,25 +160,25 @@ main( int argc, char **argv ) {
   // Update model.
   //==========================================================================*/
 
-  WnSimpleGce__updateInfallKValue( p_model, (unsigned int) atoi( argv[1] ) );
+  WnSimpleGce__updateInfallKValue( p_model, (unsigned int) atoi( k) );
   
-  WnSimpleGce__updateInfallDelta( p_model, atof( argv[2] ) );
+  WnSimpleGce__updateInfallDelta( p_model, atof( delta ) );
   
-  WnSimpleGce__updateOmega( p_model, atof( argv[3] ) );
+  WnSimpleGce__updateOmega( p_model, atof( omega ) );
   
-  WnSimpleGce__updatePrimaryMetallicityYield( p_model, atof( argv[4] ) );
+  WnSimpleGce__updatePrimaryMetallicityYield( p_model, atof( alpha ) );
 
   /*============================================================================
   // Create species.
   //==========================================================================*/
 
-  p_species = WnSimpleGce__Species__new( argv[5] );
+  p_species = WnSimpleGce__Species__new( species );
 
   /*============================================================================
   // Assign the decay rate.
   //==========================================================================*/
 
-  WnSimpleGce__Species__updateDecayRate( p_species, atof( argv[6] ) );
+  WnSimpleGce__Species__updateDecayRate( p_species, atof( decay_rate ) );
 
   /*============================================================================
   // Get species yield data.
