@@ -27,14 +27,14 @@
  
 #include <WnSimpleGce.h>
 #include "rappture.h"
+#include <boost/lexical_cast.hpp>
 #define D_INTERVAL 0.1
 
-int
-main( int argc, char **argv ) {
+int main( int argc, char **argv ) {
 
   RpLibrary* lib = NULL;
   const char* data = NULL;
-  char line [100];
+//char line [100];
   WnSimpleGce *p_model;
   WnSimpleGce__Species *p_species;
   double d_t;
@@ -44,10 +44,9 @@ main( int argc, char **argv ) {
   double delta = 0; 
   double omega = 0;
   double alpha = 0;
-  char species = NULL;
+  const char* species = NULL;
   double decay_rate = 0;
-  double alpha_i = 0;
-  
+  double alpha_i = 0;  
 
   /*============================================================================
   // Check input.
@@ -91,7 +90,7 @@ main( int argc, char **argv ) {
 //   }
 
 
- rpGetString(lib,"input.integer(k).current",&data);
+ rpGetString(lib,"input.number(k).current",&data);
   k = rpConvertDbl(data, "points", &err);
   if (err) {
         printf ("Error while retrieving input.number(points).current\n");
@@ -105,7 +104,7 @@ main( int argc, char **argv ) {
         printf ("Error while retrieving input.number(a).current\n");
         return(3);
   }
- rpGetString(lib,"input.integer(omega).current",&data);
+  rpGetString(lib,"input.number(omega).current",&data);
   omega = rpConvertDbl(data, "points", &err);
   if (err) {
         printf ("Error while retrieving input.number(points).current\n");
@@ -119,9 +118,9 @@ main( int argc, char **argv ) {
         printf ("Error while retrieving input.number(a).current\n");
         return(5);
   }
- rpGetString(lib,"input.integer(species).current",&species);
-//  pts = rpConvertDbl(data, "points", &err);
-  if (species=NULL) {
+ rpGetString(lib,"input.number(species).current",&data);
+  species = data;
+  if (species==(NULL)) {
         printf ("Error while retrieving input.number(points).current\n");
         return(6);
   }
@@ -160,37 +159,38 @@ main( int argc, char **argv ) {
   // Update model.
   //==========================================================================*/
 
-  WnSimpleGce__updateInfallKValue( p_model, (unsigned int) atoi( k) );
+  WnSimpleGce__updateInfallKValue( p_model, (unsigned int)  k);
   
-  WnSimpleGce__updateInfallDelta( p_model, atof( delta ) );
+  WnSimpleGce__updateInfallDelta( p_model, delta);
   
-  WnSimpleGce__updateOmega( p_model, atof( omega ) );
+  WnSimpleGce__updateOmega( p_model, omega);
   
-  WnSimpleGce__updatePrimaryMetallicityYield( p_model, atof( alpha ) );
+  WnSimpleGce__updatePrimaryMetallicityYield( p_model, alpha);
 
   /*============================================================================
   // Create species.
   //==========================================================================*/
 
-  p_species = WnSimpleGce__Species__new( species );
+  p_species = WnSimpleGce__Species__new(species);
 
   /*============================================================================
   // Assign the decay rate.
   //==========================================================================*/
 
-  WnSimpleGce__Species__updateDecayRate( p_species, atof( decay_rate ) );
+  WnSimpleGce__Species__updateDecayRate( p_species, decay_rate);
 
   /*============================================================================
   // Get species yield data.
   //==========================================================================*/
-
-  for( i = 0; i < argc - 7; i++ )
+  
+  char* var[7] = {boost::lexical_cast<std::string>(k),boost::lexical_cast<std::string>(delta),boost::lexical_cast<std::string>(omega),boost::lexical_cast<std::string>(alpha),species,boost::lexical_cast<std::string>(decay_rate),boost::lexical_cast<std::string>(alpha_i)};
+  for( i = 0; i <  7; i++ )
   {
     if( 
        WnSimpleGce__Species__updateYieldCoefficient(
          p_species,
          (unsigned int) i,
-         atof( argv[i+7] )
+        atof( var[i])
        ) != 0
     ) {
       fprintf( stderr, "Couldn't add yield data!\n" );

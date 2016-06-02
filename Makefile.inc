@@ -54,7 +54,7 @@ CLIBS= `xml2-config --libs` `gsl-config --cflags --libs`
 # Compiler flags.
 #===============================================================================
 
-CFLAGS= -ansi -Werror -Wall \
+CFLAGS= -ansi  -Werror -Wall\
          -Wpointer-arith -Wcast-qual \
          -Wwrite-strings -Wconversion \
          -fshort-enums -fno-common -g \
