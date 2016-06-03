@@ -8,46 +8,46 @@
     <input>
 	<number id='k'>
 	    <about>
-		<label>Number of Plot Points</label>
+		<label>Infall Parameter</label>
 		<description>Enter the number of points to calculate between x=0 and the maximum </description>
 	    </about>
 	</number>
 	<number id='Delta'>
             <about>
-                <label>Number of Plot Points</label>
+                <label>Delta</label>
                 <description>Enter the number of points to calculate between x=0 and the maximum </description>
             </about>
         </number>
 	<number id='omega'>
             <about>
-                <label>Number of Plot Points</label>
+                <label>Omega</label>
                 <description>Enter the number of points to calculate between x=0 and the maximum </description>
             </about>
         </number>
 	<number id='alpha'>
             <about>
-                <label>Number of Plot Points</label>
+                <label>Alpha</label>
                 <description>Enter the number of points to calculate between x=0 and the maximum </description>
             </about>
         </number>
-	<number id='species'>
+	<string id='species'>
             <about>
-                <label>Number of Plot Points</label>
+                <label>Species</label>
                 <description>Enter the number of points to calculate between x=0 and the maximum </description>
             </about>
-        </number>
+        </string>
        
 
 
 	 <number id="decay_rate">
             <about>
-                <label>a</label>
+                <label>Decay Rate</label>
                 <description>Coefficient a in front of the exponential.</description>
             </about>
         </number>
         <number id="alpha_i">
             <about>
-                <label>n</label>
+                <label>Alpha_i</label>
                 <description>Power of the exponential.</description>
             </about>
         </number>
@@ -57,7 +57,7 @@
 	  <curve id="tx">
 		<about>
 		  <label>Mass Fraction over time</label>
-		  <description>Change in X (Aluminium 27) with changes in Time</description>
+		  <description>Change in species mass fraction  with changes in Time</description>
 		</about>
 		<xaxis>
 		  <label>t</label>

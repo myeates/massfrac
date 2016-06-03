@@ -117,14 +117,13 @@ VENDOR_DIR := $(shell mkdir -p $(VENDORDIR))
 
 #===============================================================================
 # Build dependencies.
-#===============================================================================
+#========================================================================
 
+OBJ =   $(OBJ_DIR)/WnSimpleGce.o		\
+	$(OBJ_DIR)/my_infall_functions.o	\
+	$(OBJ_DIR)/my_species_yield_function.o	\
 
-
-WN_OBJ =$(OBJDIR)/WnSimpleGce.o		\
-	$(OBJDIR)/my_infall_functions.o	\
-	$(OBJDIR)/my_species_yield_function.o	\
-
+$(OBJ): $(OBJ_DIR)%.o: %.c $(CC) -c -o $@ $<
 #===============================================================================
 # End include.
 #===============================================================================

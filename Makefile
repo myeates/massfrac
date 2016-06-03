@@ -73,7 +73,7 @@ yes: compute_species_mass_fraction
 
 $(EXEC) : $(OBJS)
 	$(CC) -c -o $(TMPDIR)$@.o $@.c
-	$(CC) $(OBJS) $(TMPDIR)$@.o $(CLIBS) -o $@
+	$(CC) $(OBJS) $(TMPDIR)$@.o  $(CLIBS) -o $@
 
 
 
@@ -85,3 +85,4 @@ clean:
 cleanall: clean
 	rm -f $(EXEC) *.exe
 	rm -fr $(VENDORDIR) $(OBJDIR)
+	rm -f driver*

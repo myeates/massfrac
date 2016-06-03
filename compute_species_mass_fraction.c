@@ -24,8 +24,17 @@
 //   </description>
 // </file>
 //////////////////////////////////////////////////////////////////////////////*/
- 
-#include <WnSimpleGce.h>
+
+#include <string>
+#include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <unistd.h> 
+#include <WnSimpleGce.c>
+#include <my_infall_functions.c>
+#include <my_species_yield_function.c>
 #include "rappture.h"
 #include <boost/lexical_cast.hpp>
 #define D_INTERVAL 0.1
@@ -47,6 +56,15 @@ int main( int argc, char **argv ) {
   const char* species = NULL;
   double decay_rate = 0;
   double alpha_i = 0;  
+
+      lib = rpLibrary(argv[1]);
+
+    if (lib == NULL) {
+        /* cannot open file or out of memory */
+        printf("FAILED creating Rappture Library\n");
+        return(1);
+    }
+
 
   /*============================================================================
   // Check input.
@@ -90,7 +108,8 @@ int main( int argc, char **argv ) {
 //   }
 
 
- rpGetString(lib,"input.number(k).current",&data);
+  rpGetString(lib,"input.number(k).current",&data);
+std::cout << data << std::endl;
   k = rpConvertDbl(data, "points", &err);
   if (err) {
         printf ("Error while retrieving input.number(points).current\n");
@@ -98,7 +117,7 @@ int main( int argc, char **argv ) {
   }
 
 
-  rpGetString(lib,"input.number(delta).current",&data);
+  rpGetString(lib,"input.number(Delta).current",&data);
   delta = rpConvertDbl(data, "coefficient", &err);
   if (err) {
         printf ("Error while retrieving input.number(a).current\n");
@@ -110,7 +129,6 @@ int main( int argc, char **argv ) {
         printf ("Error while retrieving input.number(points).current\n");
         return(4);
   }
-
 
   rpGetString(lib,"input.number(alpha).current",&data);
   alpha = rpConvertDbl(data, "coefficient", &err);
@@ -183,14 +201,14 @@ int main( int argc, char **argv ) {
   // Get species yield data.
   //==========================================================================*/
   
-  char* var[7] = {boost::lexical_cast<std::string>(k),boost::lexical_cast<std::string>(delta),boost::lexical_cast<std::string>(omega),boost::lexical_cast<std::string>(alpha),species,boost::lexical_cast<std::string>(decay_rate),boost::lexical_cast<std::string>(alpha_i)};
+  const  char* var[7] = {boost::lexical_cast<std::string>(k).c_str(),boost::lexical_cast<std::string>(delta).c_str(),boost::lexical_cast<std::string>(omega).c_str(),boost::lexical_cast<std::string>(alpha).c_str(),species,boost::lexical_cast<std::string>(decay_rate).c_str(),boost::lexical_cast<std::string>(alpha_i).c_str()};
   for( i = 0; i <  7; i++ )
   {
     if( 
        WnSimpleGce__Species__updateYieldCoefficient(
          p_species,
          (unsigned int) i,
-        atof( var[i])
+       atof(var[i])
        ) != 0
     ) {
       fprintf( stderr, "Couldn't add yield data!\n" );
@@ -202,7 +220,7 @@ int main( int argc, char **argv ) {
   // Compute species mass fraction.
   //==========================================================================*/
 
-  fprintf(
+   fprintf(
     stdout,
     " t (Gyr)\t  X(%s)\n\n",
     WnSimpleGce__Species__getName( p_species )
