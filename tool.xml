@@ -6,31 +6,49 @@
         <command>@tool/compute_species_mass_fraction @driver</command>
     </tool>
     <input>
-	<number id='k'>
+	<number id="k">
 	    <about>
 		<label>Infall Parameter</label>
-		<description>Enter the number of points to calculate between x=0 and the maximum </description>
+		<description>Enter the infall parameter.</description>
 	    </about>
+            <default>1</default>
+            <min>0</min>
+            <max>5</max>
 	</number>
-	<number id='Delta'>
+	<number id="Delta">
             <about>
                 <label>Delta</label>
-                <description>Enter the number of points to calculate between x=0 and the maximum </description>
+                <description>Enter the infall Delta.</description>
             </about>
+            <default>0.1</default>
+            <min>0.00001</min>
+            <max>10</max>
         </number>
-	<number id='omega'>
+	<number id="omega">
             <about>
                 <label>Omega</label>
-                <description>Enter the number of points to calculate between x=0 and the maximum </description>
+                <description>Enter the gas cycle parameter.</description>
             </about>
+            <default>0.2</default>
+            <min>0.00001</min>
         </number>
-	<number id='alpha'>
+	<number id="alpha">
             <about>
                 <label>Alpha</label>
-                <description>Enter the number of points to calculate between x=0 and the maximum </description>
+                <description>Enter the primary species yield parameter.</description>
             </about>
+            <default>0.012</default>
+            <min>0.00001</min>
         </number>
-	<string id='species'>
+	<number id="alpha_i">
+            <about>
+                <label>Alpha_i</label>
+                <description>Enter the species yield parameter.</description>
+            </about>
+            <default>0.00034</default>
+            <min>0.00001</min>
+        </number>
+	<string id="species">
             <about>
                 <label>Species</label>
                 <description>Enter the number of points to calculate between x=0 and the maximum </description>
@@ -38,38 +56,32 @@
 	    <default>al27</default>
         </string>
        
-
-
-	 <number id="decay_rate">
+	<number id="decay_rate">
             <about>
                 <label>Decay Rate</label>
-                <description>Coefficient a in front of the exponential.</description>
+                <description>Species decay rate (per Gyr).</description>
             </about>
+	    <default>0</default>
         </number>
-        <number id="alpha_i">
-            <about>
-                <label>Alpha_i</label>
-                <description>Power of the exponential.</description>
-            </about>
-        </number>
-	</input>
 
-	<output>
+      </input>
+
+      <output>
 	  <curve id="tx">
-		<about>
-		  <label>Mass Fraction over time</label>
-		  <description>Change in species mass fraction  with changes in Time</description>
-		</about>
-		<xaxis>
-		  <label>t</label>
-		  <description>Time</description>
-		  <units>s</units>
-		</xaxis>
-		<yaxis>
-		  <label>X</label>
-		  <description>Mass Fraction</description>
-		  <units></units>
-		</yaxis>
-	  </curve>	
-	</output>
+    	     <about>
+	       <label>Mass Fraction over time</label>
+	       <description>Change in species mass fraction with changes in Time</description>
+	     </about>
+	     <xaxis>
+	       <label>t</label>
+	       <description>Time</description>
+	       <units>Gyr</units>
+	     </xaxis>
+	     <yaxis>
+	       <label>X</label>
+	       <description>Mass Fraction</description>
+	       <units></units>
+             </yaxis>
+          </curve>
+      </output>
 </run>

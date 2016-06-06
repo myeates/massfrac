@@ -1,23 +1,24 @@
-#///////////////////////////////////////////////////////////////////////////////////#  Copyright (c) 2011-2012 Clemson University.
-#//# 
-#//#  This file was originally written by Bradley S. Meyer.
-#//# 
-#//#  This is free software; you can redistribute it and/or modify it
-#//#  under the terms of the GNU General Public License as published by
-#//#  the Free Software Foundation; either version 2 of the License, or
-#//#  (at your option) any later version.
-#//# 
-#//#  This software is distributed in the hope that it will be useful,
-#//#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#//#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#//#  GNU General Public License for more details.
-#//# 
-#//#  You should have received a copy of the GNU General Public License
-#//#  along with this software; if not, write to the Free Software
-#//#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
-#//#  USA
-#//# 
-#//#///////////////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////
+#  Copyright (c) 2016 Clemson University.
+# 
+#  This file was originally written by Bradley S. Meyer and Jacob Covington.
+# 
+#  This is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+# 
+#  This software is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+# 
+#  You should have received a copy of the GNU General Public License
+#  along with this software; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+#  USA
+# 
+#///////////////////////////////////////////////////////////////////////////////
 
 #///////////////////////////////////////////////////////////////////////////////
 #//!
@@ -30,31 +31,32 @@ ifndef BUILD_DEF
 
 GC=g++
 
-BOOST_DIR = ./
-RAPPDIR = /usr/local/rappture/
+WN_SIMPLE_GCE_VERSION = 0.6
 
-VALGRIND= yes
-PROFILE= no
-OPENMP= yes
-NODEPRECATED= yes
+SOURCEFORGE_URL = http://sourceforge.net/projects/
+
+WN_SIMPLE_GCE_URL = $(SOURCEFORGE_URL)/wn-simple-gce/files/wn_simple_gce
+
+WN_SIMPLE_GCE_DIR = $(VENDORDIR)/wn_simple_gce/$(WN_SIMPLE_GCE_VERSION)
 
 #///////////////////////////////////////////////////////////////////////////////
 # End of lines to be edited.
 #///////////////////////////////////////////////////////////////////////////////
 
+VPATH= $(WN_SIMPLE_GCE_DIR)/src:$(WN_SIMPLE_GCE_DIR)/examples
 
-CINCLUDE= `xml2-config --cflags` \
-          `gsl-config --cflags`  \
-          -I$(BOOST_DIR)         \
-	  
+CINCLUDE= `xml2-config --cflags`          \
+          `gsl-config --cflags`           \
+          -I$(WN_SIMPLE_GCE_DIR)/src      \
+          -I$(WN_SIMPLE_GCE_DIR)/examples \
 
-CLIBS= `xml2-config --libs` `gsl-config --cflags --libs`
+CLIBS= `xml2-config --libs` `gsl-config --libs`
 
 #===============================================================================
 # Compiler flags.
 #===============================================================================
 
-CFLAGS= -ansi  -Werror -Wall\
+CFLAGS= -ansi -Werror -Wall \
          -Wpointer-arith -Wcast-qual \
          -Wwrite-strings -Wconversion \
          -fshort-enums -fno-common -g \
@@ -89,7 +91,8 @@ endif
 CC=$(GC) $(CFLAGS) $(CINCLUDE)
 
 #===============================================================================
-# OBJDIR is the temporary directory for codes compilation, this is where object files are created. 
+# OBJDIR is the temporary directory for codes compilation, this is where
+# object files are created. 
 #===============================================================================
 
 ifndef OBJDIR
@@ -117,13 +120,35 @@ VENDOR_DIR := $(shell mkdir -p $(VENDORDIR))
 
 #===============================================================================
 # Build dependencies.
-#========================================================================
+#===============================================================================
 
-OBJ =   $(OBJ_DIR)/WnSimpleGce.o		\
-	$(OBJ_DIR)/my_infall_functions.o	\
-	$(OBJ_DIR)/my_species_yield_function.o	\
+$(VENDORDIR)/wn_simple_gce.tar.gz:
+	wget $(WN_SIMPLE_GCE_URL)/wn_simple_gce_$(WN_SIMPLE_GCE_VERSION).tar.gz -O $@
 
-$(OBJ): $(OBJ_DIR)%.o: %.c $(CC) -c -o $@ $<
+$(OBJDIR)/WnSimpleGce.o: $(VENDORDIR)/wn_simple_gce.tar.gz 
+	tar xz -C $(VENDORDIR) -f $<
+	$(CC) -c $(WN_SIMPLE_GCE_DIR)/src/WnSimpleGce.c -o $@
+#--------------------------------------------------------------------------
+
+WN_OBJ =$(OBJDIR)/WnSimpleGce.o		\
+
+#===============================================================================
+# Clean up. 
+#===============================================================================
+
+.PHONY: clean clean_all clean_dist
+
+clean:
+	rm -fr $(OBJDIR)
+
+clean_dist:
+	rm -fr $(VENDORDIR)
+
+clean_all: clean clean_dist
+
+clean_data:
+	rm -fr $(DATA_DIR)
+
 #===============================================================================
 # End include.
 #===============================================================================
