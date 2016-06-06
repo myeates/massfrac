@@ -35,6 +35,7 @@
                 <label>Species</label>
                 <description>Enter the number of points to calculate between x=0 and the maximum </description>
             </about>
+	    <default>al27</default>
         </string>
        
 

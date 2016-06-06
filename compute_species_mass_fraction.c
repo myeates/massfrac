@@ -43,7 +43,7 @@ int main( int argc, char **argv ) {
 
   RpLibrary* lib = NULL;
   const char* data = NULL;
-//char line [100];
+  char line [100];
   WnSimpleGce *p_model;
   WnSimpleGce__Species *p_species;
   double d_t;
@@ -109,7 +109,6 @@ int main( int argc, char **argv ) {
 
 
   rpGetString(lib,"input.number(k).current",&data);
-std::cout << data << std::endl;
   k = rpConvertDbl(data, "points", &err);
   if (err) {
         printf ("Error while retrieving input.number(points).current\n");
@@ -202,13 +201,13 @@ std::cout << data << std::endl;
   //==========================================================================*/
   
   const  char* var[7] = {boost::lexical_cast<std::string>(k).c_str(),boost::lexical_cast<std::string>(delta).c_str(),boost::lexical_cast<std::string>(omega).c_str(),boost::lexical_cast<std::string>(alpha).c_str(),species,boost::lexical_cast<std::string>(decay_rate).c_str(),boost::lexical_cast<std::string>(alpha_i).c_str()};
-  for( i = 0; i <  7; i++ )
+  for( i = 0; i <  1; i++ )
   {
     if( 
        WnSimpleGce__Species__updateYieldCoefficient(
          p_species,
          (unsigned int) i,
-       atof(var[i])
+       atof(var[i+6])
        ) != 0
     ) {
       fprintf( stderr, "Couldn't add yield data!\n" );
@@ -220,23 +219,24 @@ std::cout << data << std::endl;
   // Compute species mass fraction.
   //==========================================================================*/
 
-   fprintf(
-    stdout,
-    " t (Gyr)\t  X(%s)\n\n",
-    WnSimpleGce__Species__getName( p_species )
-  );
+//   fprintf(
+//    stdout,
+//    " t (Gyr)\t  X(%s)\n\n",
+//    WnSimpleGce__Species__getName( p_species )
+//  );
 
   d_t = 0.;
 
   while( d_t < 20.0 + D_INTERVAL ) {
-
-    fprintf(
-      stdout,
-      "%12.6e  %12.6e\n",
-      d_t,
-      WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t )
-    );
-
+  
+//    fprintf(
+//      stdout,
+//      "%12.6e  %12.6e\n",
+//      d_t,
+//      WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t )
+//      );
+    sprintf(line,"%f %.12f\n",d_t,WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t));
+    rpPutString(lib,"output.curve(tx).component.xy",line,RPLIB_APPEND);
     d_t += D_INTERVAL;
 
   }
@@ -251,7 +251,7 @@ std::cout << data << std::endl;
   /*============================================================================
   // Done.
   //==========================================================================*/
-
+  rpResult(lib);
   return EXIT_SUCCESS;
 
 }
