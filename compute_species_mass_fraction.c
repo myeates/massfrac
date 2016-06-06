@@ -235,7 +235,7 @@ int main( int argc, char **argv ) {
 //      d_t,
 //      WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t )
 //      );
-    sprintf(line,"%f %.12f\n",d_t,WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t));
+    sprintf(line,"%f %.15f\n",d_t,WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t));
     rpPutString(lib,"output.curve(tx).component.xy",line,RPLIB_APPEND);
     d_t += D_INTERVAL;
 
