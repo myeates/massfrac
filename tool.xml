@@ -15,7 +15,7 @@
             <min>0</min>
             <max>5</max>
 	</number>
-	<number id="Delta">
+	<number id="delta">
             <about>
                 <label>Delta</label>
                 <description>Enter the infall Delta.</description>
@@ -29,7 +29,7 @@
                 <label>Omega</label>
                 <description>Enter the gas cycle parameter.</description>
             </about>
-            <default>0.2</default>
+            <default>0.298805</default>
             <min>0.00001</min>
         </number>
 	<number id="alpha">
@@ -40,18 +40,10 @@
             <default>0.012</default>
             <min>0.00001</min>
         </number>
-	<number id="alpha_i">
-            <about>
-                <label>Alpha_i</label>
-                <description>Enter the species yield parameter.</description>
-            </about>
-            <default>0.00034</default>
-            <min>0.00001</min>
-        </number>
 	<string id="species">
             <about>
                 <label>Species</label>
-                <description>Enter the number of points to calculate between x=0 and the maximum </description>
+                <description>Enter the isotope and its mass (ex. al27 is Aluminum with 13 protons and 14 neutrons) </description>
             </about>
 	    <default>al27</default>
         </string>
@@ -63,9 +55,27 @@
             </about>
 	    <default>0</default>
         </number>
-
+        <number id="alpha_i">
+            <about>
+                <label>Alpha_i</label>
+                <description>Enter the species yield parameter.</description>
+            </about>
+            <default>0.000017</default>
+        </number>
+	<boolean id="beta">
+	    <about>
+		<label>Would you like to use a Beta_i value?</label>
+	    </about>
+	    <default>1</default>
+	</boolean>
+	<number id="beta_i">
+	    <about>
+		<label>Beta_i</label>
+		<description>Enter the second species yield parameter</description>
+	    </about>	   
+	    <default>0.0021</default>
+	</number>
       </input>
-
       <output>
 	  <curve id="tx">
     	     <about>

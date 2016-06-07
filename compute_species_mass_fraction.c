@@ -45,8 +45,8 @@ int main( int argc, char **argv ) {
 
   RpLibrary* lib = NULL;
   char line [100];
-  WnSimpleGce *p_model;
-  WnSimpleGce__Species *p_species;
+  WnSimpleGce* p_model;
+  WnSimpleGce__Species* p_species;
   double d_t;
   double k = 0;
   double delta = 0; 
@@ -55,6 +55,14 @@ int main( int argc, char **argv ) {
   double alpha_i = 0;
   const char* species = NULL;
   double decay_rate = 0;
+  double beta = 0;
+  double beta_i = 0;
+//  double beta_i1=0;
+//  const char* choice = "yes";
+//  const char* betac = NULL;
+  const char* data = NULL;
+  int err = 0;
+  std::stringstream my_stream; 
 
   lib = rpLibrary(argv[1]);
 
@@ -65,48 +73,119 @@ int main( int argc, char **argv ) {
     return EXIT_FAILURE;
   }
 
-  if( rpGetDouble(lib,"input.number(k).current",&k) )
-  {
-    printf ("Error while retrieving k.\n");
-    return EXIT_FAILURE;
+//  if( rpGetDouble(lib,"input.number(k).current",&k) )
+//  {
+//    printf ("Error while retrieving k.\n");
+//    return EXIT_FAILURE;
+//  }
+
+ // rpGetString(lib,"input.number(points).current",&data);
+ // pts = rpConvertDbl(data, "points", &err);
+  if (rpGetString(lib,"input.number(k).current",&data)==0) {
+	k = rpConvertDbl(data,"Infall Parameter",&err);
+	if(err)
+	{
+           printf ("Error while retrieving input.number(points).current\n");
+           return(2);
+	}
   }
 
-  if( rpGetDouble(lib,"input.number(Delta).current",&delta) )
-  {
-    printf ("Error while retrieving Delta.\n");
-    return EXIT_FAILURE;
+//  if( rpGetDouble(lib,"input.number(delta).current",&delta) )
+//  {
+//    printf ("Error while retrieving Delta.\n");
+//    return EXIT_FAILURE;
+//  }
+  if (rpGetString(lib,"input.number(delta).current",&data)==0) {
+        delta = rpConvertDbl(data,"Infall Parameter",&err);
+        if(err)
+        {
+           printf ("Error while retrieving input.number(points).current\n");
+           return(2);
+        }
   }
 
-  if( rpGetDouble(lib,"input.number(omega).current",&omega) )
-  {
-    printf ("Error while retrieving omega.\n");
-    return EXIT_FAILURE;
+//  if( rpGetDouble(lib,"input.number(omega).current",&omega) )
+//  {
+//    printf ("Error while retrieving omega.\n");
+//    return EXIT_FAILURE;
+//  }
+  if (rpGetString(lib,"input.number(omega).current",&data)==0) {
+        omega = rpConvertDbl(data,"Infall Parameter",&err);
+        if(err)
+        {
+           printf ("Error while retrieving input.number(points).current\n");
+           return(2);
+        }
   }
 
-  if( rpGetDouble(lib,"input.number(alpha).current",&alpha) )
+//  if( rpGetDouble(lib,"input.number(alpha).current",&alpha) )
+//  {
+//    printf ("Error while retrieving alpha.\n");
+//    return EXIT_FAILURE;
+//  }
+  if (rpGetString(lib,"input.number(alpha).current",&data)==0) {
+        alpha = rpConvertDbl(data,"Infall Parameter",&err);
+        if(err)
+        {
+           printf ("Error while retrieving input.number(points).current\n");
+           return(2);
+        }
+  }
+  
+  if( rpGetString(lib,"input.number(species).current",&data)==0)
   {
-    printf ("Error while retrieving alpha.\n");
-    return EXIT_FAILURE;
+    species=data;
+//    printf ("Error while retrieving species.\n");
+//    return EXIT_FAILURE;
   }
 
-  if( rpGetString(lib,"input.number(species).current", &species ) )
-  {
-    printf ("Error while retrieving species.\n");
-    return EXIT_FAILURE;
+//  if( rpGetDouble(lib,"input.number(decay_rate).current",&decay_rate) )
+//  {
+//    printf ("Error while retrieving decay rate.\n");
+//    return EXIT_FAILURE;
+//  }
+  if (rpGetString(lib,"input.number(decay_rate).current",&data)==0) {
+        decay_rate = rpConvertDbl(data,"Infall Parameter",&err);
+        if(err)
+        {
+           printf ("Error while retrieving input.number(points).current\n");
+           return(2);
+        }
   }
 
-  if( rpGetDouble(lib,"input.number(decay_rate).current",&decay_rate) )
-  {
-    printf ("Error while retrieving decay rate.\n");
-    return EXIT_FAILURE;
+//  if( rpGetDouble(lib,"input.number(alpha_i).current",&alpha_i) )
+//  {
+//    printf ("Error while retrieving alpha_i.\n");
+//    return EXIT_FAILURE;
+//  }
+  if (rpGetString(lib,"input.number(alpha_i).current",&data)==0) {
+        alpha_i = rpConvertDbl(data,"Infall Parameter",&err);
+        if(err)
+        {
+           printf ("Error while retrieving input.number(points).current\n");
+           return(2);
+        }
   }
 
-  if( rpGetDouble(lib,"input.number(alpha_i).current",&alpha_i) )
+  rpGetString(lib,"input.boolean(beta).current",&data);
+  beta = rpConvertDbl(data,"boo",&err);
+//  if (err==0)
+//  {
+//	return(1);
+//  }
+  if( beta == 1 )
   {
-    printf ("Error while retrieving alpha_i.\n");
-    return EXIT_FAILURE;
+    if( rpGetString(lib,"input.number(beta_i).current",&data)==0)
+    {
+      beta_i = rpConvertDbl(data,"bleh",&err);
+      if(err)
+      {
+      printf ("Error while retrieving beta_i.\n");
+      return EXIT_FAILURE;
+      }
+    }
   }
-
+  
   /*============================================================================
   // Create model.
   //==========================================================================*/
@@ -142,7 +221,10 @@ int main( int argc, char **argv ) {
   //==========================================================================*/
   
   WnSimpleGce__Species__updateYieldCoefficient( p_species, 0, alpha_i );
-
+  if (beta == 1)
+  {
+     WnSimpleGce__Species__updateYieldCoefficient( p_species, 1, beta_i);
+  }
   /*============================================================================
   // Compute species mass fraction.
   //==========================================================================*/
@@ -151,9 +233,9 @@ int main( int argc, char **argv ) {
 
   while( d_t < 20.0 + D_INTERVAL ) {
   
-    sprintf(
+   sprintf(
       line,
-      "%f %.15f\n",
+      "%.15f %.15f\n",
       d_t,
       WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t)
     );
@@ -173,7 +255,6 @@ int main( int argc, char **argv ) {
   /*============================================================================
   // Done.
   //==========================================================================*/
-
   rpResult(lib);
   return EXIT_SUCCESS;
 
