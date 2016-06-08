@@ -57,12 +57,8 @@ int main( int argc, char **argv ) {
   double decay_rate = 0;
   double beta = 0;
   double beta_i = 0;
-//  double beta_i1=0;
-//  const char* choice = "yes";
-//  const char* betac = NULL;
   const char* data = NULL;
   int err = 0;
-  std::stringstream my_stream; 
 
   lib = rpLibrary(argv[1]);
 
@@ -70,7 +66,7 @@ int main( int argc, char **argv ) {
   {
     /* cannot open file or out of memory */
     printf("FAILED creating Rappture Library\n");
-    return EXIT_FAILURE;
+    return(1);
   }
 
 //  if( rpGetDouble(lib,"input.number(k).current",&k) )
@@ -81,13 +77,12 @@ int main( int argc, char **argv ) {
 
  // rpGetString(lib,"input.number(points).current",&data);
  // pts = rpConvertDbl(data, "points", &err);
-  if (rpGetString(lib,"input.number(k).current",&data)==0) {
-	k = rpConvertDbl(data,"Infall Parameter",&err);
-	if(err)
-	{
-           printf ("Error while retrieving input.number(points).current\n");
-           return(2);
-	}
+  rpGetString(lib,"input.number(k).current",&data);
+  k = rpConvertDbl(data,"Infall Parameter",&err);
+  if(err)
+  {
+	printf ("Error while retrieving input.number(points).current\n");
+	return(2);
   }
 
 //  if( rpGetDouble(lib,"input.number(delta).current",&delta) )
@@ -100,7 +95,7 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(3);
         }
   }
 
@@ -114,7 +109,7 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(4);
         }
   }
 
@@ -128,7 +123,7 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(5);
         }
   }
   
@@ -149,7 +144,7 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(6);
         }
   }
 
@@ -163,11 +158,11 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(7);
         }
   }
 
-  rpGetString(lib,"input.boolean(beta).current",&data);
+  rpGetString(lib,"input.integer(beta).current",&data);
   beta = rpConvertDbl(data,"boo",&err);
 //  if (err==0)
 //  {
@@ -181,7 +176,7 @@ int main( int argc, char **argv ) {
       if(err)
       {
       printf ("Error while retrieving beta_i.\n");
-      return EXIT_FAILURE;
+      return (8);
       }
     }
   }
