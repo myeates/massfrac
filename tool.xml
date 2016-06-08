@@ -28,7 +28,13 @@
             <min>0.00001</min>
             <max>10</max>
         </number>
-        <number id="fraction">
+	<number id="mass">
+	    <about>
+		<label>Initial Mass</label>
+		<description>Initial mass of gas in disk or solar annulus</description>
+	    </about>
+	</number>
+	<number id="fraction">
             <about>
                 <label>Gas Fraction</label>
                 <description>Enter the Gas Fraction at some time t.</description>
@@ -139,5 +145,68 @@
 		   <label>Omega</label>
 		</about>
 	  </string>
+	  <curve id="infall">
+	    <about>
+		<label>Infall Rate over Time</label>
+		<description></description>
+	    </about>
+	    <xaxis>
+		<label>t</label>
+		<description>Time</description>
+		<units>Gyr</units>
+	    </xaxis>
+	    <yaxis>
+               <label>k</label>
+               <description>Infall Rate</description>
+            </yaxis>
+	  </curve>
+          <curve id="total">
+            <about>
+                <label>Total Mass over Time</label>
+                <description></description>
+            </about>
+            <xaxis>
+                <label>t</label>
+                <description>Time</description>
+                <units>Gyr</units>
+            </xaxis>
+            <yaxis>
+               <label>M</label>
+               <description>Total Mass</description>
+	       <units>kg</units>
+            </yaxis>
+          </curve>
+          <curve id="star">
+            <about>
+                <label>Star Mass over Time</label>
+                <description></description>
+            </about>
+            <xaxis>
+                <label>t</label>
+                <description>Time</description>
+                <units>Gyr</units>
+            </xaxis>
+            <yaxis>
+               <label>M</label>
+               <description>Star Mass</description>
+	       <units>kg</units>
+            </yaxis>
+          </curve>
+          <curve id="gas">
+            <about>
+                <label>Gas Mass over Time</label>
+                <description></description>
+            </about>
+            <xaxis>
+                <label>t</label>
+                <description>Time</description>
+                <units>Gyr</units>
+            </xaxis>
+            <yaxis>
+               <label>M</label>
+               <description>Gas Mass</description>
+	       <units>kg</units>
+            </yaxis>
+          </curve>
       </output>
 </run>

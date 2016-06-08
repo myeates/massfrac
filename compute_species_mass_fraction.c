@@ -44,7 +44,11 @@
 int main( int argc, char **argv ) {
 
   RpLibrary* lib = NULL;
-  char line [100];
+  char tx [100];
+  char infall [100];
+  char total [100];
+  char star [100];
+  char gas [100];
   char output [100];
   WnSimpleGce* p_model;
   WnSimpleGce__Species* p_species;
@@ -60,6 +64,7 @@ int main( int argc, char **argv ) {
   const char* choice;
   double fraction = 0;
   double time = 0;
+  double mass = 0;
 
   lib = rpLibrary(argv[1]);
   
@@ -88,51 +93,57 @@ int main( int argc, char **argv ) {
     return(3);
   }
 
+  if( rpGetDouble(lib,"input.phase(model).number(mass).current",&mass) )
+  {
+    printf ("Error while retrieving Initial Mass.\n");
+    return(4);
+  }
+
   if( rpGetDouble(lib,"input.phase(model).number(fraction).current",&fraction) )
   {
     printf ("Error while retrieving mass fraction.\n");
-    return(4);
+    return(5);
   }
 
   if( rpGetDouble(lib,"input.phase(model).number(time).current",&time) )
   {
     printf ("Error while retrieving time.\n");
-    return(5);
+    return(6);
   }
 
   if( rpGetDouble(lib,"input.phase(model).number(alpha).current",&alpha) )
   {
     printf ("Error while retrieving alpha.\n");
-    return(6);
+    return(7);
   }
   
   if( rpGetString(lib,"input.phase(species).number(species).current",&species))
   {
     printf ("Error while retrieving species.\n");
-    return(7);
+    return(8);
   }
 
   if( rpGetDouble(lib,"input.phase(species).number(decay_rate).current",&decay_rate) )
   {
     printf ("Error while retrieving decay rate.\n");
-    return(8);
+    return(9);
   }
 
   if (rpGetString(lib,"input.phase(species).choice(coeff).current",&choice))
   {
     printf ("Error while retrieving choice.\n");
-    return(9);
+    return(10);
   }
   if( rpGetDouble(lib,"input.phase(species).number(alpha_i).current",&alpha_i) )
   {
     printf ("Error while retrieving alpha_i.\n");
-    return(10);
+    return(11);
   }
 
   if( rpGetDouble(lib,"input.phase(species).number(beta_i).current",&beta_i))
   {
     printf ("Error while retrieving beta_i.\n");
-    return (11);
+    return(12);
   }
 
   
@@ -145,6 +156,8 @@ int main( int argc, char **argv ) {
   /*============================================================================
   // Update model.
   //==========================================================================*/
+
+  WnSimpleGce__updateInitialGasMass( p_model, mass);
 
   WnSimpleGce__updateInfallKValue( p_model, (unsigned int)  k);
   
@@ -159,7 +172,7 @@ int main( int argc, char **argv ) {
   if(!WnSimpleGce__computeOmegaFromGasFraction(p_model,time,fraction))
   {
     printf("Error could not calculate Omega\n");
-    return(12);
+    return(13);
   }
   omega=WnSimpleGce__getOmega(p_model);
   sprintf(output,"For a k = %f and a Delta = %f \n",k,delta); 
@@ -199,7 +212,7 @@ int main( int argc, char **argv ) {
   else
   {
     printf ("Error");
-    return(13);
+    return(14);
   }
    
   /*============================================================================
@@ -210,14 +223,19 @@ int main( int argc, char **argv ) {
 
   while( d_t < 20.0 + D_INTERVAL ) {
   
-   sprintf(
-      line,
-      "%6.15f %6.15f\n",
-      d_t,
-      WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t)
-    );
+   sprintf(tx,"%6.15f %6.15f\n",d_t,WnSimpleGce__computeSpeciesMassFraction( p_model, p_species, d_t));
+   sprintf(infall,"%6.15f %6.15f\n",d_t,WnSimpleGce__computeInfallRate( p_model, d_t));
+   sprintf(total,"%6.15f %6.15f\n",d_t,WnSimpleGce__computeTotalMass( p_model, d_t));
+   sprintf(star,"%6.15f %6.15f\n",d_t,WnSimpleGce__computeStarMass( p_model, d_t));
+   sprintf(gas,"%6.15f %6.15f\n",d_t,WnSimpleGce__computeGasMass( p_model, d_t));
 
-    rpPutString( lib,"output.curve(tx).component.xy",line,RPLIB_APPEND );
+
+    rpPutString( lib,"output.curve(tx).component.xy",tx,RPLIB_APPEND );
+    rpPutString( lib,"output.curve(infall).component.xy",infall,RPLIB_APPEND );
+    rpPutString( lib,"output.curve(total).component.xy",total,RPLIB_APPEND );
+    rpPutString( lib,"output.curve(star).component.xy",star,RPLIB_APPEND );
+    rpPutString( lib,"output.curve(gas).component.xy",gas,RPLIB_APPEND );
+
     d_t += D_INTERVAL;
 
   }
