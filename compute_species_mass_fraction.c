@@ -66,55 +66,55 @@ int main( int argc, char **argv ) {
     return(1);
   }
 
-  if( rpGetDouble(lib,"input.number(k).current",&k) )
+  if( rpGetDouble(lib,"input.phase(model).number(k).current",&k) )
   {
     printf ("Error while retrieving k.\n");
     return(2);
   }
 
 
-  if( rpGetDouble(lib,"input.number(delta).current",&delta) )
+  if( rpGetDouble(lib,"input.phase(model).number(delta).current",&delta) )
   {
     printf ("Error while retrieving Delta.\n");
     return(3);
   }
 
-  if( rpGetDouble(lib,"input.number(omega).current",&omega) )
+  if( rpGetDouble(lib,"input.phase(model).number(omega).current",&omega) )
   {
     printf ("Error while retrieving omega.\n");
     return(4);
   }
 
-  if( rpGetDouble(lib,"input.number(alpha).current",&alpha) )
+  if( rpGetDouble(lib,"input.phase(model).number(alpha).current",&alpha) )
   {
     printf ("Error while retrieving alpha.\n");
     return(5);
   }
   
-  if( rpGetString(lib,"input.number(species).current",&species))
+  if( rpGetString(lib,"input.phase(species).number(species).current",&species))
   {
     printf ("Error while retrieving species.\n");
     return(6);
   }
 
-  if( rpGetDouble(lib,"input.number(decay_rate).current",&decay_rate) )
+  if( rpGetDouble(lib,"input.phase(species).number(decay_rate).current",&decay_rate) )
   {
     printf ("Error while retrieving decay rate.\n");
     return(7);
   }
 
-  if (rpGetString(lib,"input.choice(coeff).current",&choice))
+  if (rpGetString(lib,"input.phase(species).choice(coeff).current",&choice))
   {
     printf ("Error while retrieving choice.\n");
     return(8);
   }
-  if( rpGetDouble(lib,"input.number(alpha_i).current",&alpha_i) )
+  if( rpGetDouble(lib,"input.phase(species).number(alpha_i).current",&alpha_i) )
   {
     printf ("Error while retrieving alpha_i.\n");
     return(9);
   }
 
-  if( rpGetDouble(lib,"input.number(beta_i).current",&beta_i))
+  if( rpGetDouble(lib,"input.phase(species).number(beta_i).current",&beta_i))
   {
     printf ("Error while retrieving beta_i.\n");
     return (10);

@@ -45,7 +45,7 @@
             <min>0.00001</min>
         </number>
     </phase>
-    <phase id="speciesdata">
+    <phase id="species">
 	<about>
 		<label>Species Specific Data</label>
 	</about>
@@ -92,7 +92,7 @@
             <about>
                 <label>Alpha_i</label>
                 <description>Enter the species yield parameter.</description>
-		<enable>input.choice(coeff) != "beta_i"</enable>
+		<enable>input.phase(species).choice(coeff) != "beta_i"</enable>
             </about>
             <default>0.000017</default>
         </number>
@@ -100,7 +100,7 @@
 	    <about>
 		<label>Beta_i</label>
 		<description>Enter the second species yield parameter</description>
-		<enable>input.choice(coeff) != "alpha_i"</enable>
+		<enable>input.phase(species).choice(coeff) != "alpha_i"</enable>
 	    </about>	   
 	    <default>0.0021</default>
 	</number>
