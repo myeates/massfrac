@@ -57,8 +57,8 @@ int main( int argc, char **argv ) {
   double decay_rate = 0;
   double beta = 0;
   double beta_i = 0;
-  const char* data = NULL;
-  int err = 0;
+ // const char* data = NULL;
+//  int err = 0;
 
   lib = rpLibrary(argv[1]);
 
@@ -69,115 +69,116 @@ int main( int argc, char **argv ) {
     return(1);
   }
 
-//  if( rpGetDouble(lib,"input.number(k).current",&k) )
-//  {
-//    printf ("Error while retrieving k.\n");
-//    return EXIT_FAILURE;
-//  }
+  if( rpGetDouble(lib,"input.number(k).current",&k) )
+  {
+    printf ("Error while retrieving k.\n");
+    return EXIT_FAILURE;
+  }
 
  // rpGetString(lib,"input.number(points).current",&data);
  // pts = rpConvertDbl(data, "points", &err);
-  rpGetString(lib,"input.number(k).current",&data);
-  k = rpConvertDbl(data,"Infall Parameter",&err);
-  if(err)
+//  rpGetString(lib,"input.number(k).current",&data);
+//  k = rpConvertDbl(data,"Infall Parameter",&err);
+//  if(err)
+//  {
+//	printf ("Error while retrieving input.number(points).current\n");
+//	return(2);
+//  }
+
+  if( rpGetDouble(lib,"input.number(delta).current",&delta) )
   {
-	printf ("Error while retrieving input.number(points).current\n");
-	return(2);
+    printf ("Error while retrieving Delta.\n");
+    return EXIT_FAILURE;
   }
-
-//  if( rpGetDouble(lib,"input.number(delta).current",&delta) )
-//  {
-//    printf ("Error while retrieving Delta.\n");
-//    return EXIT_FAILURE;
+//  if (rpGetString(lib,"input.number(delta).current",&data)==0) {
+//        delta = rpConvertDbl(data,"Infall Parameter",&err);
+//        if(err)
+//        {
+//           printf ("Error while retrieving input.number(points).current\n");
+//           return(3);
+//        }
 //  }
-  if (rpGetString(lib,"input.number(delta).current",&data)==0) {
-        delta = rpConvertDbl(data,"Infall Parameter",&err);
-        if(err)
-        {
-           printf ("Error while retrieving input.number(points).current\n");
-           return(3);
-        }
-  }
 
-//  if( rpGetDouble(lib,"input.number(omega).current",&omega) )
-//  {
-//    printf ("Error while retrieving omega.\n");
-//    return EXIT_FAILURE;
-//  }
-  if (rpGetString(lib,"input.number(omega).current",&data)==0) {
-        omega = rpConvertDbl(data,"Infall Parameter",&err);
-        if(err)
-        {
-           printf ("Error while retrieving input.number(points).current\n");
-           return(4);
-        }
+  if( rpGetDouble(lib,"input.number(omega).current",&omega) )
+  {
+    printf ("Error while retrieving omega.\n");
+    return EXIT_FAILURE;
   }
+//  if (rpGetString(lib,"input.number(omega).current",&data)==0) {
+//        omega = rpConvertDbl(data,"Infall Parameter",&err);
+//        if(err)
+//        {
+//          printf ("Error while retrieving input.number(points).current\n");
+//           return(4);
+//        }
+//  }
 
-//  if( rpGetDouble(lib,"input.number(alpha).current",&alpha) )
-//  {
-//    printf ("Error while retrieving alpha.\n");
-//    return EXIT_FAILURE;
-//  }
-  if (rpGetString(lib,"input.number(alpha).current",&data)==0) {
-        alpha = rpConvertDbl(data,"Infall Parameter",&err);
-        if(err)
-        {
-           printf ("Error while retrieving input.number(points).current\n");
-           return(5);
-        }
+  if( rpGetDouble(lib,"input.number(alpha).current",&alpha) )
+  {
+    printf ("Error while retrieving alpha.\n");
+    return EXIT_FAILURE;
   }
+//  if (rpGetString(lib,"input.number(alpha).current",&data)==0) {
+//        alpha = rpConvertDbl(data,"Infall Parameter",&err);
+//        if(err)
+//        {
+//           printf ("Error while retrieving input.number(points).current\n");
+//           return(5);
+//        }
+//  }
   
-  if( rpGetString(lib,"input.number(species).current",&data)==0)
+  if( rpGetString(lib,"input.number(species).current",&species))
   {
-    species=data;
-//    printf ("Error while retrieving species.\n");
-//    return EXIT_FAILURE;
+//    species=data;
+    printf ("Error while retrieving species.\n");
+    return EXIT_FAILURE;
   }
 
-//  if( rpGetDouble(lib,"input.number(decay_rate).current",&decay_rate) )
-//  {
-//    printf ("Error while retrieving decay rate.\n");
-//    return EXIT_FAILURE;
+  if( rpGetDouble(lib,"input.number(decay_rate).current",&decay_rate) )
+  {
+    printf ("Error while retrieving decay rate.\n");
+    return EXIT_FAILURE;
+  }
+//  if (rpGetString(lib,"input.number(decay_rate).current",&data)==0) {
+//        decay_rate = rpConvertDbl(data,"Infall Parameter",&err);
+//        if(err)
+//        {
+//           printf ("Error while retrieving input.number(points).current\n");
+//           return(6);
+//        }
 //  }
-  if (rpGetString(lib,"input.number(decay_rate).current",&data)==0) {
-        decay_rate = rpConvertDbl(data,"Infall Parameter",&err);
-        if(err)
-        {
-           printf ("Error while retrieving input.number(points).current\n");
-           return(6);
-        }
-  }
 
-//  if( rpGetDouble(lib,"input.number(alpha_i).current",&alpha_i) )
-//  {
-//    printf ("Error while retrieving alpha_i.\n");
-//    return EXIT_FAILURE;
+  if( rpGetDouble(lib,"input.number(alpha_i).current",&alpha_i) )
+  {
+    printf ("Error while retrieving alpha_i.\n");
+    return EXIT_FAILURE;
+  }
+//  if (rpGetString(lib,"input.number(alpha_i).current",&data)==0) {
+//        alpha_i = rpConvertDbl(data,"Infall Parameter",&err);
+//        if(err)
+//        {
+//           printf ("Error while retrieving input.number(points).current\n");
+//           return(7);
+//        }
 //  }
-  if (rpGetString(lib,"input.number(alpha_i).current",&data)==0) {
-        alpha_i = rpConvertDbl(data,"Infall Parameter",&err);
-        if(err)
-        {
-           printf ("Error while retrieving input.number(points).current\n");
-           return(7);
-        }
-  }
 
-  rpGetString(lib,"input.integer(beta).current",&data);
-  beta = rpConvertDbl(data,"boo",&err);
+  if(rpGetDouble(lib,"input.integer(beta).current",&beta))
+
+//  beta = rpConvertDbl(data,"boo",&err);
 //  if (err==0)
-//  {
-//	return(1);
-//  }
+  {
+	return(1);
+  }
   if( beta == 1 )
   {
-    if( rpGetString(lib,"input.number(beta_i).current",&data)==0)
+    if( rpGetDouble(lib,"input.number(beta_i).current",&beta_i))
     {
-      beta_i = rpConvertDbl(data,"bleh",&err);
-      if(err)
-      {
+//      beta_i = rpConvertDbl(data,"bleh",&err);
+//      if(err)
+//      {
       printf ("Error while retrieving beta_i.\n");
       return (8);
-      }
+//      }
     }
   }
   
