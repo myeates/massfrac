@@ -46,8 +46,7 @@
                 <description>Enter the isotope and its mass (ex. al27 is Aluminum with 13 protons and 14 neutrons) </description>
             </about>
 	    <default>al27</default>
-        </string>
-       
+        </string>       
 	<number id="decay_rate">
             <about>
                 <label>Decay Rate</label>
@@ -55,25 +54,48 @@
             </about>
 	    <default>0</default>
         </number>
+	<choice id ="coeff">
+	    <about>
+		<label>Order</label>
+		<description>Which coefficients would you like to use?</description>
+	    </about>
+	    <option id="1">
+		<about>
+		    <label>alpha_i</label>
+		    <description>Use only the first order parameter, alpha_i</description>
+		</about>
+	    </option>
+	    <option id="2">
+		<about>
+		    <label>beta_i</label>
+		    <description>Use only the second order parameter, beta_i</description>
+		</about>
+	    </option>
+	    <option id="3">
+		<about>
+		    <label>both</label>
+		    <description>Use both the first and second order parameters, alpha_i and beta_i</description>
+		</about>
+	    </option>
+	    <default>alpha_i</default>
+	</choice>
         <number id="alpha_i">
             <about>
                 <label>Alpha_i</label>
                 <description>Enter the species yield parameter.</description>
+		<enable>input.choice(coeff) != "beta_i"</enable>
             </about>
             <default>0.000017</default>
+	    <enable></enable>
         </number>
-	<integer id="beta">
-	    <about>
-		<label>Would you like to use a Beta_i value?</label>
-	    </about>
-	    <default>1</default>
-	</integer>
 	<number id="beta_i">
 	    <about>
 		<label>Beta_i</label>
 		<description>Enter the second species yield parameter</description>
+		<enable>input.choice(coeff) != "alpha_i"</enable>
 	    </about>	   
 	    <default>0.0021</default>
+	    <enable></enable>
 	</number>
       </input>
       <output>

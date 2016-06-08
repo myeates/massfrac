@@ -138,8 +138,8 @@ WN_OBJ =$(OBJDIR)/WnSimpleGce.o		\
 
 .PHONY: clean clean_all clean_dist
 
-clean:
-	rm -fr $(OBJDIR)
+#clean:
+#	rm -fr $(OBJDIR)
 
 clean_dist:
 	rm -fr $(VENDORDIR)
