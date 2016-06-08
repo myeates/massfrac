@@ -45,6 +45,7 @@ int main( int argc, char **argv ) {
 
   RpLibrary* lib = NULL;
   char line [100];
+  char output [32];
   WnSimpleGce* p_model;
   WnSimpleGce__Species* p_species;
   double d_t;
@@ -57,14 +58,22 @@ int main( int argc, char **argv ) {
   double decay_rate = 0;
   double beta_i = 0;
   const char* choice;
-  lib = rpLibrary(argv[1]);
+  double fraction = 0;
+  double time = 0;
 
+  lib = rpLibrary(argv[1]);
+  
   if( lib == NULL )
   {
     /* cannot open file or out of memory */
     printf("FAILED creating Rappture Library\n");
     return(1);
   }
+
+
+  /*============================================================================
+  // Check and Retrieve inputs
+  //==========================================================================*/
 
   if( rpGetDouble(lib,"input.phase(model).number(k).current",&k) )
   {
@@ -79,46 +88,53 @@ int main( int argc, char **argv ) {
     return(3);
   }
 
-  if( rpGetDouble(lib,"input.phase(model).number(omega).current",&omega) )
+  if( rpGetDouble(lib,"input.phase(model).number(fraction).current",&fraction) )
   {
-    printf ("Error while retrieving omega.\n");
+    printf ("Error while retrieving mass fraction.\n");
     return(4);
+  }
+
+  if( rpGetDouble(lib,"input.phase(model).number(time).current",&time) )
+  {
+    printf ("Error while retrieving time.\n");
+    return(5);
   }
 
   if( rpGetDouble(lib,"input.phase(model).number(alpha).current",&alpha) )
   {
     printf ("Error while retrieving alpha.\n");
-    return(5);
+    return(6);
   }
   
   if( rpGetString(lib,"input.phase(species).number(species).current",&species))
   {
     printf ("Error while retrieving species.\n");
-    return(6);
+    return(7);
   }
 
   if( rpGetDouble(lib,"input.phase(species).number(decay_rate).current",&decay_rate) )
   {
     printf ("Error while retrieving decay rate.\n");
-    return(7);
+    return(8);
   }
 
   if (rpGetString(lib,"input.phase(species).choice(coeff).current",&choice))
   {
     printf ("Error while retrieving choice.\n");
-    return(8);
+    return(9);
   }
   if( rpGetDouble(lib,"input.phase(species).number(alpha_i).current",&alpha_i) )
   {
     printf ("Error while retrieving alpha_i.\n");
-    return(9);
+    return(10);
   }
 
   if( rpGetDouble(lib,"input.phase(species).number(beta_i).current",&beta_i))
   {
     printf ("Error while retrieving beta_i.\n");
-    return (10);
+    return (11);
   }
+
   
   /*============================================================================
   // Create model.
@@ -134,9 +150,21 @@ int main( int argc, char **argv ) {
   
   WnSimpleGce__updateInfallDelta( p_model, delta);
   
-  WnSimpleGce__updateOmega( p_model, omega);
-  
   WnSimpleGce__updatePrimaryMetallicityYield( p_model, alpha);
+
+  /*============================================================================
+  // Calculate Omega.
+  //==========================================================================*/
+
+  if(!WnSimpleGce__computeOmegaFromGasFraction(p_model,time,fraction))
+  {
+    printf("Error could not calculate Omega\n");
+    return(12);
+  }
+  omega=WnSimpleGce__getOmega(p_model);
+  
+  sprintf(output,"%6.15f", omega);
+  rpPutString( lib,"output.string(omega).current",output,RPLIB_APPEND );
 
   /*============================================================================
   // Create species.
@@ -170,7 +198,7 @@ int main( int argc, char **argv ) {
   else
   {
     printf ("Error");
-    return(11);
+    return(13);
   }
    
   /*============================================================================
@@ -192,7 +220,8 @@ int main( int argc, char **argv ) {
     d_t += D_INTERVAL;
 
   }
-
+  
+  
   /*============================================================================
   // Do cleanup.
   //==========================================================================*/

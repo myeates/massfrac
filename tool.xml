@@ -28,14 +28,25 @@
             <min>0.00001</min>
             <max>10</max>
         </number>
-	<number id="omega">
+        <number id="fraction">
             <about>
-                <label>Omega</label>
-                <description>Enter the gas cycle parameter.</description>
+                <label>Gas Fraction</label>
+                <description>Enter the Gas Fraction at some time t.</description>
             </about>
-            <default>0.298805</default>
+            <default>0.15</default>
             <min>0.00001</min>
+            <max>0.99999</max>
         </number>
+        <number id="time">
+            <about>
+                <label>Time</label>
+                <description>Enter the time at which the gas fraction was recorded.</description>
+            </about>
+            <default>12</default>
+            <min>1</min>
+            <max>50</max>
+        </number>
+
 	<number id="alpha">
             <about>
                 <label>Alpha</label>
@@ -123,5 +134,7 @@
 	       <units></units>
              </yaxis>
           </curve>
+	  <string id="omega">
+	  </string>
       </output>
 </run>
