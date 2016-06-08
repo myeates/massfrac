@@ -6,6 +6,10 @@
         <command>@tool/compute_species_mass_fraction @driver</command>
     </tool>
     <input>
+    <phase id="model">
+	<about>
+		<label>Model Parameters</label>
+	</about>
 	<number id="k">
 	    <about>
 		<label>Infall Parameter</label>
@@ -40,6 +44,11 @@
             <default>0.012</default>
             <min>0.00001</min>
         </number>
+    </phase>
+    <phase id="speciesdata">
+	<about>
+		<label>Species Specific Data</label>
+	</about>
 	<string id="species">
             <about>
                 <label>Species</label>
@@ -86,7 +95,6 @@
 		<enable>input.choice(coeff) != "beta_i"</enable>
             </about>
             <default>0.000017</default>
-	    <enable></enable>
         </number>
 	<number id="beta_i">
 	    <about>
@@ -95,8 +103,8 @@
 		<enable>input.choice(coeff) != "alpha_i"</enable>
 	    </about>	   
 	    <default>0.0021</default>
-	    <enable></enable>
 	</number>
+      </phase>
       </input>
       <output>
 	  <curve id="tx">
