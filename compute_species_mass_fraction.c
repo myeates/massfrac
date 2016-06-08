@@ -45,7 +45,7 @@ int main( int argc, char **argv ) {
 
   RpLibrary* lib = NULL;
   char line [100];
-  char output [32];
+  char output [100];
   WnSimpleGce* p_model;
   WnSimpleGce__Species* p_species;
   double d_t;
@@ -162,8 +162,9 @@ int main( int argc, char **argv ) {
     return(12);
   }
   omega=WnSimpleGce__getOmega(p_model);
-  
-  sprintf(output,"%6.15f", omega);
+  sprintf(output,"For a k = %f and a Delta = %f \n",k,delta); 
+  rpPutString( lib,"output.string(omega).current",output,RPLIB_APPEND );
+  sprintf(output,"To get a gas fraction of %f at t = %f Gyr, \nYou need an omega = %6.15f",fraction,time,omega);
   rpPutString( lib,"output.string(omega).current",output,RPLIB_APPEND );
 
   /*============================================================================

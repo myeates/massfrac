@@ -135,6 +135,9 @@
              </yaxis>
           </curve>
 	  <string id="omega">
+		<about>
+		   <label>Omega</label>
+		</about>
 	  </string>
       </output>
 </run>
