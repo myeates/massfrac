@@ -17,6 +17,10 @@ $(EXEC) : $(WN_OBJ)
 
 all: $(EXEC)
 
+clean:
+	rm -fr $(EXEC) $(OBJDIR)
+
+
 cleanruns:
 	$(RM) run*.xml driver*.xml
 

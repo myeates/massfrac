@@ -62,12 +62,12 @@
             </about>
             <default>0.000017</default>
         </number>
-	<boolean id="beta">
+	<integer id="beta">
 	    <about>
-		<label>Would you like to use a Beta_i value?</label>
+		<label>Would you like to use a Beta_i value? (1=yes, 0=no)</label>
 	    </about>
 	    <default>1</default>
-	</boolean>
+	</integer>
 	<number id="beta_i">
 	    <about>
 		<label>Beta_i</label>

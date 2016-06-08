@@ -70,7 +70,7 @@ int main( int argc, char **argv ) {
   {
     /* cannot open file or out of memory */
     printf("FAILED creating Rappture Library\n");
-    return EXIT_FAILURE;
+    return(1);
   }
 
 //  if( rpGetDouble(lib,"input.number(k).current",&k) )
@@ -100,7 +100,7 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(3);
         }
   }
 
@@ -114,7 +114,7 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(4);
         }
   }
 
@@ -128,7 +128,7 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(5);
         }
   }
   
@@ -149,7 +149,7 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(7);
         }
   }
 
@@ -163,27 +163,28 @@ int main( int argc, char **argv ) {
         if(err)
         {
            printf ("Error while retrieving input.number(points).current\n");
-           return(2);
+           return(8);
         }
   }
 
-  rpGetString(lib,"input.boolean(beta).current",&data);
+  rpGetString(lib,"input.integer(beta).current",&data);
   beta = rpConvertDbl(data,"boo",&err);
-//  if (err==0)
-//  {
-//	return(1);
-//  }
-  if( beta == 1 )
+  if (err)
   {
-    if( rpGetString(lib,"input.number(beta_i).current",&data)==0)
+      return(9);
+  }
+
+//  if( beta == 1 )
+//  {
+    if( rpGetString(lib,"input.double(beta_i).current",&data)==0)
     {
       beta_i = rpConvertDbl(data,"bleh",&err);
-      if(err)
-      {
-      printf ("Error while retrieving beta_i.\n");
-      return EXIT_FAILURE;
-      }
-    }
+//      if(err)
+//      {
+//      printf ("Error while retrieving beta_i.\n");
+//      return(10);
+//      }
+//    }
   }
   
   /*============================================================================
