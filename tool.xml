@@ -6,7 +6,7 @@
         <command>@tool/compute_species_mass_fraction @driver</command>
     </tool>
     <input>
-    <phase id="model">
+    <group id="model">
 	<about>
 		<label>Model Parameters</label>
 	</about>
@@ -33,6 +33,7 @@
 		<label>Initial Mass</label>
 		<description>Initial mass of gas in disk or solar annulus</description>
 	    </about>
+	    <default>10000000000</default>
 	</number>
 	<number id="fraction">
             <about>
@@ -61,8 +62,8 @@
             <default>0.012</default>
             <min>0.00001</min>
         </number>
-    </phase>
-    <phase id="species">
+    </group>
+    <group id="species">
 	<about>
 		<label>Species Specific Data</label>
 	</about>
@@ -109,7 +110,7 @@
             <about>
                 <label>Alpha_i</label>
                 <description>Enter the species yield parameter.</description>
-		<enable>input.phase(species).choice(coeff) != "beta_i"</enable>
+		<enable>input.group(species).choice(coeff) != "beta_i"</enable>
             </about>
             <default>0.000017</default>
         </number>
@@ -117,11 +118,11 @@
 	    <about>
 		<label>Beta_i</label>
 		<description>Enter the second species yield parameter</description>
-		<enable>input.phase(species).choice(coeff) != "alpha_i"</enable>
+		<enable>input.group(species).choice(coeff) != "alpha_i"</enable>
 	    </about>	   
 	    <default>0.0021</default>
 	</number>
-      </phase>
+      </group>
       </input>
       <output>
 	  <curve id="tx">

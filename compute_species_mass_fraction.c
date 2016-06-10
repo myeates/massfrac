@@ -80,67 +80,67 @@ int main( int argc, char **argv ) {
   // Check and Retrieve inputs
   //==========================================================================*/
 
-  if( rpGetDouble(lib,"input.phase(model).number(k).current",&k) )
+  if( rpGetDouble(lib,"input.group(model).number(k).current",&k) )
   {
     printf ("Error while retrieving k.\n");
     return(2);
   }
 
 
-  if( rpGetDouble(lib,"input.phase(model).number(delta).current",&delta) )
+  if( rpGetDouble(lib,"input.group(model).number(delta).current",&delta) )
   {
     printf ("Error while retrieving Delta.\n");
     return(3);
   }
 
-  if( rpGetDouble(lib,"input.phase(model).number(mass).current",&mass) )
+  if( rpGetDouble(lib,"input.group(model).number(mass).current",&mass) )
   {
     printf ("Error while retrieving Initial Mass.\n");
     return(4);
   }
 
-  if( rpGetDouble(lib,"input.phase(model).number(fraction).current",&fraction) )
+  if( rpGetDouble(lib,"input.group(model).number(fraction).current",&fraction) )
   {
     printf ("Error while retrieving mass fraction.\n");
     return(5);
   }
 
-  if( rpGetDouble(lib,"input.phase(model).number(time).current",&time) )
+  if( rpGetDouble(lib,"input.group(model).number(time).current",&time) )
   {
     printf ("Error while retrieving time.\n");
     return(6);
   }
 
-  if( rpGetDouble(lib,"input.phase(model).number(alpha).current",&alpha) )
+  if( rpGetDouble(lib,"input.group(model).number(alpha).current",&alpha) )
   {
     printf ("Error while retrieving alpha.\n");
     return(7);
   }
   
-  if( rpGetString(lib,"input.phase(species).number(species).current",&species))
+  if( rpGetString(lib,"input.group(species).number(species).current",&species))
   {
     printf ("Error while retrieving species.\n");
     return(8);
   }
 
-  if( rpGetDouble(lib,"input.phase(species).number(decay_rate).current",&decay_rate) )
+  if( rpGetDouble(lib,"input.group(species).number(decay_rate).current",&decay_rate) )
   {
     printf ("Error while retrieving decay rate.\n");
     return(9);
   }
 
-  if (rpGetString(lib,"input.phase(species).choice(coeff).current",&choice))
+  if (rpGetString(lib,"input.group(species).choice(coeff).current",&choice))
   {
     printf ("Error while retrieving choice.\n");
     return(10);
   }
-  if( rpGetDouble(lib,"input.phase(species).number(alpha_i).current",&alpha_i) )
+  if( rpGetDouble(lib,"input.group(species).number(alpha_i).current",&alpha_i) )
   {
     printf ("Error while retrieving alpha_i.\n");
     return(11);
   }
 
-  if( rpGetDouble(lib,"input.phase(species).number(beta_i).current",&beta_i))
+  if( rpGetDouble(lib,"input.group(species).number(beta_i).current",&beta_i))
   {
     printf ("Error while retrieving beta_i.\n");
     return(12);
