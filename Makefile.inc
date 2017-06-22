@@ -31,7 +31,7 @@ ifndef BUILD_DEF
 
 GC=g++
 
-WN_SIMPLE_GCE_VERSION = 0.6
+WN_SIMPLE_GCE_VERSION = 0.8
 
 SOURCEFORGE_URL = http://sourceforge.net/projects/
 
@@ -56,10 +56,12 @@ CLIBS= `xml2-config --libs` `gsl-config --libs`
 # Compiler flags.
 #===============================================================================
 
-CFLAGS= -ansi -Werror -Wall \
+CFLAGS=  -Werror -Wall \
+         -Wconversion \
          -Wpointer-arith -Wcast-qual \
-         -Wwrite-strings -Wconversion \
+         -Wwrite-strings \
          -fshort-enums -fno-common -g \
+
 
 ifeq ($(GC), icpc)
 	CFLAGS+= -wd9 -wd981 -wd1292 -wd1418 -wd1419 -wd10148 -wd10156
@@ -87,6 +89,11 @@ endif
 ifeq ($(NODEPRECATED), yes)
 	CFLAGS+= -Wno-deprecated
 endif
+
+ifdef WN_XML_CHAR
+  CFLAGS += -DWN_XML_CHAR=$(WN_XML_CHAR)
+endif
+
 
 CC=$(GC) $(CFLAGS) $(CINCLUDE)
 

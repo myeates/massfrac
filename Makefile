@@ -1,8 +1,9 @@
 # simple makefile for a Rappture-based program
 
-RAPPTURE_DIR	= /usr/local/rappture/
-INCLUDES	= -I$(RAPPTURE_DIR)/include
-LIBS		= -L$(RAPPTURE_DIR)/lib -lrappture -lm
+RAPPTURE_DIR	= ~/tools/rappture
+#BOOST_DIR       = ~/tools/boost
+INCLUDES	= -I $(RAPPTURE_DIR)/include #-I ${BOOST_DIR}/include
+LIBS		= -L $(RAPPTURE_DIR)/lib -lrappture -lm
 
 VENDORDIR = ./vendor
 OBJDIR = ./obj

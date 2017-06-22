@@ -37,8 +37,6 @@
 #include "rappture.h"
 #include "WnSimpleGce.h"
 
-#include <boost/lexical_cast.hpp>
-
 #define D_INTERVAL 0.1
 
 int main( int argc, char **argv ) {
